@@ -1,0 +1,123 @@
+{
+  "account_id": "account_003",
+  "from_version": "v1",
+  "to_version": "v2",
+  "updated_at_utc": "2026-03-06T13:00:10.580324+00:00",
+  "source_file": "account_003_onboarding.txt",
+  "changes": [
+    {
+      "path": "business_hours.start",
+      "old": "09:00 AM",
+      "new": "08:00 AM",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "business_hours.end",
+      "old": "05:30 PM",
+      "new": "06:00 PM",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "office_address",
+      "old": null,
+      "new": "5001 River Lane, Denver, CO 80216",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_definition",
+      "old": [
+        "Emergency calls are no heat in winter, refrigerant leak, or smoke from equipment.",
+        "After-hours emergency transfer goes to 303-555-0150.",
+        "Non-emergency issues can be collected and scheduled next business day."
+      ],
+      "new": [
+        "Emergency calls are no heat in winter, refrigerant leak, or smoke from equipment.",
+        "After-hours emergency transfer goes to 303-555-0150.",
+        "Non-emergency issues can be collected and scheduled next business day.",
+        "Emergency now includes no cooling for medical sites and smoke from units.",
+        "Emergency transfer should call 303-555-0150 then 303-555-0151.",
+        "Non-emergency follow-up: next business day."
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.secondary_contact",
+      "old": null,
+      "new": "303-555-0151",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.transfer_order",
+      "old": [
+        "303-555-0150"
+      ],
+      "new": [
+        "303-555-0150",
+        "303-555-0151"
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.fallback",
+      "old": "Emergency calls are no heat in winter, refrigerant leak, or smoke from equipment.",
+      "new": "Emergency now includes no cooling for medical sites and smoke from units.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "old": "Non-emergency issues can be collected and scheduled next business day.",
+      "new": "Non-emergency follow-up: next business day.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "old": "If transfer fails after 50 seconds, apologize and assure fast dispatch callback.",
+      "new": "If no answer, apologize and confirm callback within 20 minutes.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "old": "During office hours (Monday-Saturday 09:00 AM-05:30 PM MST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "new": "During office hours (Monday-Saturday 08:00 AM-06:00 PM MST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "reason": "onboarding_update"
+    }
+  ],
+  "conflicts": [
+    {
+      "path": "business_hours.start",
+      "base": "09:00 AM",
+      "incoming": "08:00 AM",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "business_hours.end",
+      "base": "05:30 PM",
+      "incoming": "06:00 PM",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "emergency_routing_rules.fallback",
+      "base": "Emergency calls are no heat in winter, refrigerant leak, or smoke from equipment.",
+      "incoming": "Emergency now includes no cooling for medical sites and smoke from units.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "base": "Non-emergency issues can be collected and scheduled next business day.",
+      "incoming": "Non-emergency follow-up: next business day.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "base": "If transfer fails after 50 seconds, apologize and assure fast dispatch callback.",
+      "incoming": "If no answer, apologize and confirm callback within 20 minutes.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "base": "During office hours (Monday-Saturday 09:00 AM-05:30 PM MST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "incoming": "During office hours (Monday-Saturday 08:00 AM-06:00 PM MST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "resolution": "incoming_overrides_base"
+    }
+  ]
+}

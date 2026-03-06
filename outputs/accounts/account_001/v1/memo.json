@@ -1,0 +1,58 @@
+{
+  "account_id": "account_001",
+  "company_name": "Redwood Fire Systems",
+  "business_hours": {
+    "days": "Monday-Friday",
+    "start": "08:00 AM",
+    "end": "05:00 PM",
+    "timezone": "PST"
+  },
+  "office_address": "1550 Harbor Street, Oakland, CA 94607",
+  "services_supported": [
+    "Sprinkler",
+    "Fire Alarm",
+    "Alarm",
+    "Extinguisher",
+    "Inspection"
+  ],
+  "emergency_definition": [
+    "Emergency means active leak, fire alarm triggered, or burst pipe.",
+    "For emergency calls transfer to dispatch at 415-555-0101, backup 415-555-0102.",
+    "Non-emergency requests can be logged for next business day follow-up."
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "415-555-0101",
+    "secondary_contact": "415-555-0102",
+    "transfer_order": [
+      "415-555-0101",
+      "415-555-0102"
+    ],
+    "fallback": "Emergency means active leak, fire alarm triggered, or burst pipe."
+  },
+  "non_emergency_routing_rules": {
+    "routing_summary": "Non-emergency requests can be logged for next business day follow-up.",
+    "intake_required_fields": [
+      "caller_name",
+      "caller_phone",
+      "service_issue"
+    ],
+    "follow_up_window": "next business day"
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": 60,
+    "retries": null,
+    "transfer_fail_message": "If transfer fails after 60 seconds notify dispatch and promise a callback."
+  },
+  "integration_constraints": [
+    "Integration note: never create sprinkler jobs in ServiceTrade from the agent."
+  ],
+  "after_hours_flow_summary": "After hours, the agent confirms emergency status immediately. For emergencies, it captures name, number, and address before transfer. For non-emergencies, it logs details and confirms next-business-hours follow-up.",
+  "office_hours_flow_summary": "During office hours (Monday-Friday 08:00 AM-05:00 PM PST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+  "questions_or_unknowns": [],
+  "notes": "Generated from demo input: account_001_demo.txt",
+  "source": {
+    "stage": "demo",
+    "file_name": "account_001_demo.txt"
+  },
+  "version": "v1"
+}

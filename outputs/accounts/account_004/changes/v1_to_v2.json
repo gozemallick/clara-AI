@@ -1,0 +1,152 @@
+{
+  "account_id": "account_004",
+  "from_version": "v1",
+  "to_version": "v2",
+  "updated_at_utc": "2026-03-06T13:00:10.641205+00:00",
+  "source_file": "account_004_onboarding.txt",
+  "changes": [
+    {
+      "path": "business_hours.days",
+      "old": null,
+      "new": "Monday-Friday",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "business_hours.start",
+      "old": null,
+      "new": "08:00 AM",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "business_hours.end",
+      "old": null,
+      "new": "05:00 PM",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "business_hours.timezone",
+      "old": null,
+      "new": "MST",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_definition",
+      "old": [
+        "Emergency definition: sprinkler leak, active fire alarm, or flood condition.",
+        "Emergency transfer destination 602-555-0177.",
+        "Non-emergency callers should leave details for next business day."
+      ],
+      "new": [
+        "Emergency definition: sprinkler leak, active fire alarm, or flood condition.",
+        "Emergency transfer destination 602-555-0177.",
+        "Non-emergency callers should leave details for next business day.",
+        "Emergency transfer order is 602-555-0178 then 602-555-0177.",
+        "Non-emergency calls can be collected after hours and handled next business day."
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.primary_contact",
+      "old": "602-555-0177",
+      "new": "602-555-0178",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.secondary_contact",
+      "old": "602-555-0178",
+      "new": "602-555-0177",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.transfer_order",
+      "old": [
+        "602-555-0177",
+        "602-555-0178"
+      ],
+      "new": [
+        "602-555-0178",
+        "602-555-0177"
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.fallback",
+      "old": "Emergency definition: sprinkler leak, active fire alarm, or flood condition.",
+      "new": "Emergency transfer order is 602-555-0178 then 602-555-0177.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "old": "Non-emergency callers should leave details for next business day.",
+      "new": "Non-emergency calls can be collected after hours and handled next business day.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.retries",
+      "old": null,
+      "new": 1,
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "old": "If transfer fails after 60 seconds route to backup 602-555-0178.",
+      "new": "If transfer fails, apologize and confirm dispatch callback within 10 minutes.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "integration_constraints",
+      "old": [
+        "Integration rule: do not auto-create jobs for alarm false positives."
+      ],
+      "new": [
+        "Integration rule: do not auto-create jobs for alarm false positives.",
+        "Never create sprinkler jobs in ServiceTrade."
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "old": "During office hours (configured days ?-? local timezone), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "new": "During office hours (Monday-Friday 08:00 AM-05:00 PM MST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "reason": "onboarding_update"
+    }
+  ],
+  "conflicts": [
+    {
+      "path": "emergency_routing_rules.primary_contact",
+      "base": "602-555-0177",
+      "incoming": "602-555-0178",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "emergency_routing_rules.secondary_contact",
+      "base": "602-555-0178",
+      "incoming": "602-555-0177",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "emergency_routing_rules.fallback",
+      "base": "Emergency definition: sprinkler leak, active fire alarm, or flood condition.",
+      "incoming": "Emergency transfer order is 602-555-0178 then 602-555-0177.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "base": "Non-emergency callers should leave details for next business day.",
+      "incoming": "Non-emergency calls can be collected after hours and handled next business day.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "base": "If transfer fails after 60 seconds route to backup 602-555-0178.",
+      "incoming": "If transfer fails, apologize and confirm dispatch callback within 10 minutes.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "base": "During office hours (configured days ?-? local timezone), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "incoming": "During office hours (Monday-Friday 08:00 AM-05:00 PM MST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "resolution": "incoming_overrides_base"
+    }
+  ]
+}

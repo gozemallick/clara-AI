@@ -1,0 +1,167 @@
+{
+  "account_id": "account_002",
+  "from_version": "v1",
+  "to_version": "v2",
+  "updated_at_utc": "2026-03-06T13:00:10.527400+00:00",
+  "source_file": "account_002_onboarding.txt",
+  "changes": [
+    {
+      "path": "business_hours.start",
+      "old": "07:30 AM",
+      "new": "08:00 AM",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "business_hours.end",
+      "old": "06:00 PM",
+      "new": "05:00 PM",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_definition",
+      "old": [
+        "Emergency if no power, burning smell, or sparking panel.",
+        "Emergency routing: call technician line 214-555-0133 first, then manager 214-555-0134.",
+        "Non-emergency work orders are collected and reviewed same day when possible."
+      ],
+      "new": [
+        "Emergency if no power, burning smell, or sparking panel.",
+        "Emergency routing: call technician line 214-555-0133 first, then manager 214-555-0134.",
+        "Non-emergency work orders are collected and reviewed same day when possible.",
+        "Emergency calls must route first to 214-555-0134 and then 214-555-0133.",
+        "Non-emergency requests should be collected for next business day scheduling."
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.primary_contact",
+      "old": "214-555-0133",
+      "new": "214-555-0134",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.secondary_contact",
+      "old": "214-555-0134",
+      "new": "214-555-0133",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.transfer_order",
+      "old": [
+        "214-555-0133",
+        "214-555-0134"
+      ],
+      "new": [
+        "214-555-0134",
+        "214-555-0133"
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.fallback",
+      "old": "Emergency if no power, burning smell, or sparking panel.",
+      "new": "Emergency calls must route first to 214-555-0134 and then 214-555-0133.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "old": "Non-emergency work orders are collected and reviewed same day when possible.",
+      "new": "Non-emergency requests should be collected for next business day scheduling.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "non_emergency_routing_rules.follow_up_window",
+      "old": "same day",
+      "new": "next business day",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.timeout_seconds",
+      "old": 45,
+      "new": 60,
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "old": "If nobody answers, tell caller we will return the call quickly.",
+      "new": "If transfer fails after 60 seconds, inform caller an electrician will call within 30 minutes.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "integration_constraints",
+      "old": [],
+      "new": [
+        "Do not create generator service jobs automatically in ServiceTrade."
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "old": "During office hours (Monday-Friday 07:30 AM-06:00 PM CST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "new": "During office hours (Monday-Friday 08:00 AM-05:00 PM CST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "reason": "onboarding_update"
+    }
+  ],
+  "conflicts": [
+    {
+      "path": "business_hours.start",
+      "base": "07:30 AM",
+      "incoming": "08:00 AM",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "business_hours.end",
+      "base": "06:00 PM",
+      "incoming": "05:00 PM",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "emergency_routing_rules.primary_contact",
+      "base": "214-555-0133",
+      "incoming": "214-555-0134",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "emergency_routing_rules.secondary_contact",
+      "base": "214-555-0134",
+      "incoming": "214-555-0133",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "emergency_routing_rules.fallback",
+      "base": "Emergency if no power, burning smell, or sparking panel.",
+      "incoming": "Emergency calls must route first to 214-555-0134 and then 214-555-0133.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "base": "Non-emergency work orders are collected and reviewed same day when possible.",
+      "incoming": "Non-emergency requests should be collected for next business day scheduling.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "non_emergency_routing_rules.follow_up_window",
+      "base": "same day",
+      "incoming": "next business day",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "call_transfer_rules.timeout_seconds",
+      "base": 45,
+      "incoming": 60,
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "base": "If nobody answers, tell caller we will return the call quickly.",
+      "incoming": "If transfer fails after 60 seconds, inform caller an electrician will call within 30 minutes.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "base": "During office hours (Monday-Friday 07:30 AM-06:00 PM CST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "incoming": "During office hours (Monday-Friday 08:00 AM-05:00 PM CST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "resolution": "incoming_overrides_base"
+    }
+  ]
+}

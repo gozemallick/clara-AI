@@ -1,0 +1,60 @@
+{
+  "account_id": "account_005",
+  "company_name": "Horizon Facility Maintenance",
+  "business_hours": {
+    "days": "Monday-Sunday",
+    "start": "12:00 AM",
+    "end": "11:59 PM",
+    "timezone": null
+  },
+  "office_address": "410 Lakeview Drive, Tampa, FL 33602",
+  "services_supported": [
+    "Sprinkler",
+    "Fire Alarm",
+    "Alarm",
+    "Electrical",
+    "Hvac",
+    "Maintenance"
+  ],
+  "emergency_definition": [
+    "Emergency includes flooding, active alarm, and power outage.",
+    "Emergency calls transfer to 813-555-0199.",
+    "Non-emergency requests are logged with caller name, number, and issue summary."
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "813-555-0199",
+    "secondary_contact": null,
+    "transfer_order": [
+      "813-555-0199"
+    ],
+    "fallback": "Emergency includes flooding, active alarm, and power outage."
+  },
+  "non_emergency_routing_rules": {
+    "routing_summary": "Non-emergency requests are logged with caller name, number, and issue summary.",
+    "intake_required_fields": [
+      "caller_name",
+      "caller_phone",
+      "service_issue"
+    ],
+    "follow_up_window": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": 40,
+    "retries": null,
+    "transfer_fail_message": "If no answer after 40 seconds, notify on-call supervisor and assure immediate follow-up."
+  },
+  "integration_constraints": [
+    "Never create sprinkler jobs in ServiceTrade; dispatch creates them manually."
+  ],
+  "after_hours_flow_summary": "After hours, the agent confirms emergency status immediately. For emergencies, it captures name, number, and address before transfer. For non-emergencies, it logs details and confirms next-business-hours follow-up.",
+  "office_hours_flow_summary": "During office hours (Monday-Sunday 12:00 AM-11:59 PM local timezone), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+  "questions_or_unknowns": [
+    "Business timezone missing."
+  ],
+  "notes": "Generated from demo input: account_005_demo.txt",
+  "source": {
+    "stage": "demo",
+    "file_name": "account_005_demo.txt"
+  },
+  "version": "v1"
+}

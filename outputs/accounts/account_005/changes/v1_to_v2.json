@@ -1,0 +1,127 @@
+{
+  "account_id": "account_005",
+  "from_version": "v1",
+  "to_version": "v2",
+  "updated_at_utc": "2026-03-06T13:00:10.695881+00:00",
+  "source_file": "account_005_onboarding.txt",
+  "changes": [
+    {
+      "path": "business_hours.timezone",
+      "old": null,
+      "new": "ET",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_definition",
+      "old": [
+        "Emergency includes flooding, active alarm, and power outage.",
+        "Emergency calls transfer to 813-555-0199.",
+        "Non-emergency requests are logged with caller name, number, and issue summary."
+      ],
+      "new": [
+        "Emergency includes flooding, active alarm, and power outage.",
+        "Emergency calls transfer to 813-555-0199.",
+        "Non-emergency requests are logged with caller name, number, and issue summary.",
+        "Emergency routing primary 813-555-0199, secondary 813-555-0188.",
+        "Non-emergency work orders should still gather name, phone, address, and issue details."
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.secondary_contact",
+      "old": null,
+      "new": "813-555-0188",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.transfer_order",
+      "old": [
+        "813-555-0199"
+      ],
+      "new": [
+        "813-555-0199",
+        "813-555-0188"
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.fallback",
+      "old": "Emergency includes flooding, active alarm, and power outage.",
+      "new": "Emergency routing primary 813-555-0199, secondary 813-555-0188.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "old": "Non-emergency requests are logged with caller name, number, and issue summary.",
+      "new": "Non-emergency work orders should still gather name, phone, address, and issue details.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.timeout_seconds",
+      "old": 40,
+      "new": 35,
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.retries",
+      "old": null,
+      "new": 2,
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "old": "If no answer after 40 seconds, notify on-call supervisor and assure immediate follow-up.",
+      "new": "If transfer fails, confirm on-call dispatch callback within 10 minutes.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "integration_constraints",
+      "old": [
+        "Never create sprinkler jobs in ServiceTrade; dispatch creates them manually."
+      ],
+      "new": [
+        "Never create sprinkler jobs in ServiceTrade; dispatch creates them manually.",
+        "Do not create sprinkler jobs in ServiceTrade and do not auto-close open tickets."
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "old": "During office hours (Monday-Sunday 12:00 AM-11:59 PM local timezone), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "new": "During office hours (Monday-Sunday 12:00 AM-11:59 PM ET), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "reason": "onboarding_update"
+    }
+  ],
+  "conflicts": [
+    {
+      "path": "emergency_routing_rules.fallback",
+      "base": "Emergency includes flooding, active alarm, and power outage.",
+      "incoming": "Emergency routing primary 813-555-0199, secondary 813-555-0188.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "base": "Non-emergency requests are logged with caller name, number, and issue summary.",
+      "incoming": "Non-emergency work orders should still gather name, phone, address, and issue details.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "call_transfer_rules.timeout_seconds",
+      "base": 40,
+      "incoming": 35,
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "base": "If no answer after 40 seconds, notify on-call supervisor and assure immediate follow-up.",
+      "incoming": "If transfer fails, confirm on-call dispatch callback within 10 minutes.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "base": "During office hours (Monday-Sunday 12:00 AM-11:59 PM local timezone), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "incoming": "During office hours (Monday-Sunday 12:00 AM-11:59 PM ET), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "resolution": "incoming_overrides_base"
+    }
+  ]
+}

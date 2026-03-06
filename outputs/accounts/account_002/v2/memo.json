@@ -1,0 +1,66 @@
+{
+  "account_id": "account_002",
+  "company_name": "Summit Electrical Services LLC",
+  "business_hours": {
+    "days": "Monday-Friday",
+    "start": "08:00 AM",
+    "end": "05:00 PM",
+    "timezone": "CST"
+  },
+  "office_address": "2201 Northgate Ave, Dallas, TX 75207",
+  "services_supported": [
+    "Electrical",
+    "Maintenance",
+    "Generator",
+    "Panel"
+  ],
+  "emergency_definition": [
+    "Emergency if no power, burning smell, or sparking panel.",
+    "Emergency routing: call technician line 214-555-0133 first, then manager 214-555-0134.",
+    "Non-emergency work orders are collected and reviewed same day when possible.",
+    "Emergency calls must route first to 214-555-0134 and then 214-555-0133.",
+    "Non-emergency requests should be collected for next business day scheduling."
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "214-555-0134",
+    "secondary_contact": "214-555-0133",
+    "transfer_order": [
+      "214-555-0134",
+      "214-555-0133"
+    ],
+    "fallback": "Emergency calls must route first to 214-555-0134 and then 214-555-0133."
+  },
+  "non_emergency_routing_rules": {
+    "routing_summary": "Non-emergency requests should be collected for next business day scheduling.",
+    "intake_required_fields": [
+      "caller_name",
+      "caller_phone",
+      "service_issue"
+    ],
+    "follow_up_window": "next business day"
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": 60,
+    "retries": 2,
+    "transfer_fail_message": "If transfer fails after 60 seconds, inform caller an electrician will call within 30 minutes."
+  },
+  "integration_constraints": [
+    "Do not create generator service jobs automatically in ServiceTrade."
+  ],
+  "after_hours_flow_summary": "After hours, the agent confirms emergency status immediately. For emergencies, it captures name, number, and address before transfer. For non-emergencies, it logs details and confirms next-business-hours follow-up.",
+  "office_hours_flow_summary": "During office hours (Monday-Friday 08:00 AM-05:00 PM CST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+  "questions_or_unknowns": [],
+  "notes": "Generated from demo input: account_002_demo.txt | Updated with onboarding data",
+  "source": {
+    "stage": "onboarding",
+    "base_source": {
+      "stage": "demo",
+      "file_name": "account_002_demo.txt"
+    },
+    "update_source": {
+      "stage": "onboarding",
+      "file_name": "account_002_onboarding.txt"
+    }
+  },
+  "version": "v2"
+}

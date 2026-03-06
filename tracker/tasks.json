@@ -1,0 +1,97 @@
+{
+  "account_001": {
+    "demo": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.319727+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_001\\v1\\memo.json",
+        "outputs\\accounts\\account_001\\v1\\agent_spec.json"
+      ]
+    },
+    "onboarding": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.493904+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_001\\v2\\memo.json",
+        "outputs\\accounts\\account_001\\v2\\agent_spec.json",
+        "outputs\\accounts\\account_001\\changes\\v1_to_v2.json"
+      ]
+    }
+  },
+  "account_002": {
+    "demo": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.347406+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_002\\v1\\memo.json",
+        "outputs\\accounts\\account_002\\v1\\agent_spec.json"
+      ]
+    },
+    "onboarding": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.545899+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_002\\v2\\memo.json",
+        "outputs\\accounts\\account_002\\v2\\agent_spec.json",
+        "outputs\\accounts\\account_002\\changes\\v1_to_v2.json"
+      ]
+    }
+  },
+  "account_003": {
+    "demo": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.385543+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_003\\v1\\memo.json",
+        "outputs\\accounts\\account_003\\v1\\agent_spec.json"
+      ]
+    },
+    "onboarding": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.599634+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_003\\v2\\memo.json",
+        "outputs\\accounts\\account_003\\v2\\agent_spec.json",
+        "outputs\\accounts\\account_003\\changes\\v1_to_v2.json"
+      ]
+    }
+  },
+  "account_004": {
+    "demo": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.417568+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_004\\v1\\memo.json",
+        "outputs\\accounts\\account_004\\v1\\agent_spec.json"
+      ]
+    },
+    "onboarding": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.658773+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_004\\v2\\memo.json",
+        "outputs\\accounts\\account_004\\v2\\agent_spec.json",
+        "outputs\\accounts\\account_004\\changes\\v1_to_v2.json"
+      ]
+    }
+  },
+  "account_005": {
+    "demo": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.447589+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_005\\v1\\memo.json",
+        "outputs\\accounts\\account_005\\v1\\agent_spec.json"
+      ]
+    },
+    "onboarding": {
+      "status": "completed",
+      "updated_at_utc": "2026-03-06T13:00:10.717486+00:00",
+      "artifacts": [
+        "outputs\\accounts\\account_005\\v2\\memo.json",
+        "outputs\\accounts\\account_005\\v2\\agent_spec.json",
+        "outputs\\accounts\\account_005\\changes\\v1_to_v2.json"
+      ]
+    }
+  }
+}

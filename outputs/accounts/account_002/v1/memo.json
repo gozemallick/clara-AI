@@ -1,0 +1,55 @@
+{
+  "account_id": "account_002",
+  "company_name": "Summit Electrical Services LLC",
+  "business_hours": {
+    "days": "Monday-Friday",
+    "start": "07:30 AM",
+    "end": "06:00 PM",
+    "timezone": "CST"
+  },
+  "office_address": "2201 Northgate Ave, Dallas, TX 75207",
+  "services_supported": [
+    "Electrical",
+    "Maintenance",
+    "Generator",
+    "Panel"
+  ],
+  "emergency_definition": [
+    "Emergency if no power, burning smell, or sparking panel.",
+    "Emergency routing: call technician line 214-555-0133 first, then manager 214-555-0134.",
+    "Non-emergency work orders are collected and reviewed same day when possible."
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "214-555-0133",
+    "secondary_contact": "214-555-0134",
+    "transfer_order": [
+      "214-555-0133",
+      "214-555-0134"
+    ],
+    "fallback": "Emergency if no power, burning smell, or sparking panel."
+  },
+  "non_emergency_routing_rules": {
+    "routing_summary": "Non-emergency work orders are collected and reviewed same day when possible.",
+    "intake_required_fields": [
+      "caller_name",
+      "caller_phone",
+      "service_issue"
+    ],
+    "follow_up_window": "same day"
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": 45,
+    "retries": 2,
+    "transfer_fail_message": "If nobody answers, tell caller we will return the call quickly."
+  },
+  "integration_constraints": [],
+  "after_hours_flow_summary": "After hours, the agent confirms emergency status immediately. For emergencies, it captures name, number, and address before transfer. For non-emergencies, it logs details and confirms next-business-hours follow-up.",
+  "office_hours_flow_summary": "During office hours (Monday-Friday 07:30 AM-06:00 PM CST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+  "questions_or_unknowns": [],
+  "notes": "Generated from demo input: account_002_demo.txt",
+  "source": {
+    "stage": "demo",
+    "file_name": "account_002_demo.txt"
+  },
+  "version": "v1"
+}

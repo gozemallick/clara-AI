@@ -1,0 +1,165 @@
+{
+  "account_id": "account_001",
+  "from_version": "v1",
+  "to_version": "v2",
+  "updated_at_utc": "2026-03-06T13:00:10.478157+00:00",
+  "source_file": "account_001_onboarding.txt",
+  "changes": [
+    {
+      "path": "business_hours.start",
+      "old": "08:00 AM",
+      "new": "07:30 AM",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "business_hours.end",
+      "old": "05:00 PM",
+      "new": "06:00 PM",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_definition",
+      "old": [
+        "Emergency means active leak, fire alarm triggered, or burst pipe.",
+        "For emergency calls transfer to dispatch at 415-555-0101, backup 415-555-0102.",
+        "Non-emergency requests can be logged for next business day follow-up."
+      ],
+      "new": [
+        "Emergency means active leak, fire alarm triggered, or burst pipe.",
+        "For emergency calls transfer to dispatch at 415-555-0101, backup 415-555-0102.",
+        "Non-emergency requests can be logged for next business day follow-up.",
+        "Emergency definition now includes fire alarm trouble plus active water flow alarm.",
+        "Emergency transfer order: 415-555-0102 then 415-555-0101.",
+        "Non-emergency follow-up window: within 24 hours."
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.primary_contact",
+      "old": "415-555-0101",
+      "new": "415-555-0102",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.secondary_contact",
+      "old": "415-555-0102",
+      "new": "415-555-0101",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.transfer_order",
+      "old": [
+        "415-555-0101",
+        "415-555-0102"
+      ],
+      "new": [
+        "415-555-0102",
+        "415-555-0101"
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "emergency_routing_rules.fallback",
+      "old": "Emergency means active leak, fire alarm triggered, or burst pipe.",
+      "new": "Emergency definition now includes fire alarm trouble plus active water flow alarm.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "old": "Non-emergency requests can be logged for next business day follow-up.",
+      "new": "Non-emergency follow-up window: within 24 hours.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "non_emergency_routing_rules.follow_up_window",
+      "old": "next business day",
+      "new": "within 24 hours",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.retries",
+      "old": null,
+      "new": 2,
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "old": "If transfer fails after 60 seconds notify dispatch and promise a callback.",
+      "new": "If transfer fails, say dispatch will call back in under 15 minutes.",
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "integration_constraints",
+      "old": [
+        "Integration note: never create sprinkler jobs in ServiceTrade from the agent."
+      ],
+      "new": [
+        "Integration note: never create sprinkler jobs in ServiceTrade from the agent.",
+        "Constraint: never create sprinkler jobs in ServiceTrade."
+      ],
+      "reason": "onboarding_update"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "old": "During office hours (Monday-Friday 08:00 AM-05:00 PM PST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "new": "During office hours (Monday-Friday 07:30 AM-06:00 PM PST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "reason": "onboarding_update"
+    }
+  ],
+  "conflicts": [
+    {
+      "path": "business_hours.start",
+      "base": "08:00 AM",
+      "incoming": "07:30 AM",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "business_hours.end",
+      "base": "05:00 PM",
+      "incoming": "06:00 PM",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "emergency_routing_rules.primary_contact",
+      "base": "415-555-0101",
+      "incoming": "415-555-0102",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "emergency_routing_rules.secondary_contact",
+      "base": "415-555-0102",
+      "incoming": "415-555-0101",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "emergency_routing_rules.fallback",
+      "base": "Emergency means active leak, fire alarm triggered, or burst pipe.",
+      "incoming": "Emergency definition now includes fire alarm trouble plus active water flow alarm.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "non_emergency_routing_rules.routing_summary",
+      "base": "Non-emergency requests can be logged for next business day follow-up.",
+      "incoming": "Non-emergency follow-up window: within 24 hours.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "non_emergency_routing_rules.follow_up_window",
+      "base": "next business day",
+      "incoming": "within 24 hours",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "call_transfer_rules.transfer_fail_message",
+      "base": "If transfer fails after 60 seconds notify dispatch and promise a callback.",
+      "incoming": "If transfer fails, say dispatch will call back in under 15 minutes.",
+      "resolution": "incoming_overrides_base"
+    },
+    {
+      "path": "office_hours_flow_summary",
+      "base": "During office hours (Monday-Friday 08:00 AM-05:00 PM PST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "incoming": "During office hours (Monday-Friday 07:30 AM-06:00 PM PST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+      "resolution": "incoming_overrides_base"
+    }
+  ]
+}

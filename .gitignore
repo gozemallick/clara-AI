@@ -4,6 +4,6 @@ __pycache__/
 *.pyd
 .pytest_cache/
 logs/
-outputs/
-tracker/tasks.json
 _friend_project2/
+_verify_artifact/
+_verify_artifact2/

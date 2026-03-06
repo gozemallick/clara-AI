@@ -1,0 +1,68 @@
+{
+  "account_id": "account_004",
+  "company_name": "Beacon Sprinkler and Alarm Inc",
+  "business_hours": {
+    "days": "Monday-Friday",
+    "start": "08:00 AM",
+    "end": "05:00 PM",
+    "timezone": "MST"
+  },
+  "office_address": "98 Market Road, Phoenix, AZ 85004",
+  "services_supported": [
+    "Sprinkler",
+    "Fire Alarm",
+    "Alarm",
+    "Backflow",
+    "Inspection"
+  ],
+  "emergency_definition": [
+    "Emergency definition: sprinkler leak, active fire alarm, or flood condition.",
+    "Emergency transfer destination 602-555-0177.",
+    "Non-emergency callers should leave details for next business day.",
+    "Emergency transfer order is 602-555-0178 then 602-555-0177.",
+    "Non-emergency calls can be collected after hours and handled next business day."
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "602-555-0178",
+    "secondary_contact": "602-555-0177",
+    "transfer_order": [
+      "602-555-0178",
+      "602-555-0177"
+    ],
+    "fallback": "Emergency transfer order is 602-555-0178 then 602-555-0177."
+  },
+  "non_emergency_routing_rules": {
+    "routing_summary": "Non-emergency calls can be collected after hours and handled next business day.",
+    "intake_required_fields": [
+      "caller_name",
+      "caller_phone",
+      "service_issue"
+    ],
+    "follow_up_window": "next business day"
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": 60,
+    "retries": 1,
+    "transfer_fail_message": "If transfer fails, apologize and confirm dispatch callback within 10 minutes."
+  },
+  "integration_constraints": [
+    "Integration rule: do not auto-create jobs for alarm false positives.",
+    "Never create sprinkler jobs in ServiceTrade."
+  ],
+  "after_hours_flow_summary": "After hours, the agent confirms emergency status immediately. For emergencies, it captures name, number, and address before transfer. For non-emergencies, it logs details and confirms next-business-hours follow-up.",
+  "office_hours_flow_summary": "During office hours (Monday-Friday 08:00 AM-05:00 PM MST), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+  "questions_or_unknowns": [],
+  "notes": "Generated from demo input: account_004_demo.txt | Updated with onboarding data",
+  "source": {
+    "stage": "onboarding",
+    "base_source": {
+      "stage": "demo",
+      "file_name": "account_004_demo.txt"
+    },
+    "update_source": {
+      "stage": "onboarding",
+      "file_name": "account_004_onboarding.txt"
+    }
+  },
+  "version": "v2"
+}

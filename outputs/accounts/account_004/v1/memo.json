@@ -1,0 +1,62 @@
+{
+  "account_id": "account_004",
+  "company_name": "Beacon Sprinkler and Alarm Inc",
+  "business_hours": {
+    "days": null,
+    "start": null,
+    "end": null,
+    "timezone": null
+  },
+  "office_address": "98 Market Road, Phoenix, AZ 85004",
+  "services_supported": [
+    "Sprinkler",
+    "Fire Alarm",
+    "Alarm",
+    "Backflow",
+    "Inspection"
+  ],
+  "emergency_definition": [
+    "Emergency definition: sprinkler leak, active fire alarm, or flood condition.",
+    "Emergency transfer destination 602-555-0177.",
+    "Non-emergency callers should leave details for next business day."
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "602-555-0177",
+    "secondary_contact": "602-555-0178",
+    "transfer_order": [
+      "602-555-0177",
+      "602-555-0178"
+    ],
+    "fallback": "Emergency definition: sprinkler leak, active fire alarm, or flood condition."
+  },
+  "non_emergency_routing_rules": {
+    "routing_summary": "Non-emergency callers should leave details for next business day.",
+    "intake_required_fields": [
+      "caller_name",
+      "caller_phone",
+      "service_issue"
+    ],
+    "follow_up_window": "next business day"
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": 60,
+    "retries": null,
+    "transfer_fail_message": "If transfer fails after 60 seconds route to backup 602-555-0178."
+  },
+  "integration_constraints": [
+    "Integration rule: do not auto-create jobs for alarm false positives."
+  ],
+  "after_hours_flow_summary": "After hours, the agent confirms emergency status immediately. For emergencies, it captures name, number, and address before transfer. For non-emergencies, it logs details and confirms next-business-hours follow-up.",
+  "office_hours_flow_summary": "During office hours (configured days ?-? local timezone), the agent greets the caller, collects purpose/name/number, and routes according to emergency rules.",
+  "questions_or_unknowns": [
+    "Business days missing.",
+    "Business start/end time missing.",
+    "Business timezone missing."
+  ],
+  "notes": "Generated from demo input: account_004_demo.txt",
+  "source": {
+    "stage": "demo",
+    "file_name": "account_004_demo.txt"
+  },
+  "version": "v1"
+}
