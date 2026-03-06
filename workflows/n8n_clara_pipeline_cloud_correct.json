@@ -1,0 +1,141 @@
+{
+  "name": "Clara Pipeline (n8n Cloud Correct)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start_manual_trigger",
+      "name": "Start Here (Manual Trigger)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        180,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      owner: 'gozemallick',\n      repo: 'clara-AI',\n      workflow_id: 'run_clara_pipeline.yml',\n      ref: 'main',\n      token: 'REPLACE_WITH_GITHUB_PAT',\n      artifact_name: 'clara-pipeline-outputs'\n    }\n  }\n];"
+      },
+      "id": "set_github_config",
+      "name": "Set GitHub Config",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        420,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $json;\n\nif (String(cfg.token || '').startsWith('REPLACE_')) {\n  throw new Error('Replace REPLACE_WITH_GITHUB_PAT in Set GitHub Config before running.');\n}\n\nconst dispatch = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/actions/workflows/${cfg.workflow_id}/dispatches`,\n  headers: {\n    Authorization: `Bearer ${cfg.token}`,\n    Accept: 'application/vnd.github+json',\n    'X-GitHub-Api-Version': '2022-11-28'\n  },\n  body: { ref: cfg.ref },\n  json: true,\n  resolveWithFullResponse: true,\n  simple: false\n});\n\nreturn [\n  {\n    json: {\n      ...cfg,\n      dispatch_status_code: dispatch.statusCode,\n      dispatched: dispatch.statusCode === 204,\n      dispatched_at_utc: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "id": "dispatch_action",
+      "name": "Dispatch GitHub Action",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $json;\n\nconst runsResp = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/actions/workflows/${cfg.workflow_id}/runs?branch=${encodeURIComponent(cfg.ref)}&event=workflow_dispatch&per_page=10`,\n  headers: {\n    Authorization: `Bearer ${cfg.token}`,\n    Accept: 'application/vnd.github+json',\n    'X-GitHub-Api-Version': '2022-11-28'\n  },\n  json: true\n});\n\nconst dispatchedAtMs = Date.parse(cfg.dispatched_at_utc || '1970-01-01T00:00:00Z');\nconst run = (runsResp.workflow_runs || []).find((r) => Date.parse(r.created_at) >= dispatchedAtMs - 5000) || (runsResp.workflow_runs || [])[0] || null;\n\nreturn [\n  {\n    json: {\n      ...cfg,\n      run_id: run ? run.id : null,\n      run_status: run ? run.status : null,\n      run_conclusion: run ? run.conclusion : null,\n      run_url: run ? run.html_url : null\n    }\n  }\n];"
+      },
+      "id": "check_latest_run",
+      "name": "Check Latest Run",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        980,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $json;\n\nif (!cfg.run_id) {\n  return [\n    {\n      json: {\n        ...cfg,\n        artifact_id: null,\n        artifact_archive_download_url: null\n      }\n    }\n  ];\n}\n\nconst artifactResp = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/actions/runs/${cfg.run_id}/artifacts?per_page=100`,\n  headers: {\n    Authorization: `Bearer ${cfg.token}`,\n    Accept: 'application/vnd.github+json',\n    'X-GitHub-Api-Version': '2022-11-28'\n  },\n  json: true\n});\n\nconst artifact = (artifactResp.artifacts || []).find((a) => a.name === cfg.artifact_name) || null;\n\nreturn [\n  {\n    json: {\n      ...cfg,\n      artifact_id: artifact ? artifact.id : null,\n      artifact_archive_download_url: artifact ? artifact.archive_download_url : null\n    }\n  }\n];"
+      },
+      "id": "get_artifact_info",
+      "name": "Get Artifact Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const j = $json;\nconst completed = j.run_status === 'completed';\nconst success = completed && j.run_conclusion === 'success';\n\nreturn [\n  {\n    json: {\n      summary: success\n        ? 'Run completed successfully. Download clara-pipeline-outputs from the GitHub Actions run page.'\n        : 'Run is not finished yet (or failed). Re-run this workflow after 30-60 seconds to refresh status.',\n      run_status: j.run_status,\n      run_conclusion: j.run_conclusion,\n      run_url: j.run_url,\n      artifact_name: j.artifact_name,\n      artifact_archive_download_url: j.artifact_archive_download_url,\n      input_how_to_send: 'Commit/push transcript files under data/demo and data/onboarding in the GitHub repo before dispatching this workflow.',\n      output_where_to_get: 'Open run_url, then download artifact named clara-pipeline-outputs. It contains outputs/ and tracker/tasks.json.'\n    }\n  }\n];"
+      },
+      "id": "build_summary",
+      "name": "Build Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        260
+      ]
+    }
+  ],
+  "connections": {
+    "Start Here (Manual Trigger)": {
+      "main": [
+        [
+          {
+            "node": "Set GitHub Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set GitHub Config": {
+      "main": [
+        [
+          {
+            "node": "Dispatch GitHub Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch GitHub Action": {
+      "main": [
+        [
+          {
+            "node": "Check Latest Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Latest Run": {
+      "main": [
+        [
+          {
+            "node": "Get Artifact Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Artifact Info": {
+      "main": [
+        [
+          {
+            "node": "Build Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "pinData": {}
+}

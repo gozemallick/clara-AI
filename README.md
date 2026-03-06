@@ -29,7 +29,8 @@ The implementation is deterministic, idempotent, and uses Python standard librar
 `-- workflows/
     |-- n8n_clara_pipeline.json
     |-- n8n_clara_pipeline_cloud.json
-    `-- n8n_clara_pipeline_cloud_verbose.json
+    |-- n8n_clara_pipeline_cloud_verbose.json
+    `-- n8n_clara_pipeline_cloud_correct.json
 ```
 
 ## What This Pipeline Produces
@@ -119,6 +120,7 @@ If Docker is not available, you can use n8n Cloud trial and trigger this repo vi
 4. Open n8n Cloud and import one of:
    - `workflows/n8n_clara_pipeline_cloud.json` (minimal trigger flow)
    - `workflows/n8n_clara_pipeline_cloud_verbose.json` (multi-node visual flow)
+   - `workflows/n8n_clara_pipeline_cloud_correct.json` (recommended: explicit input/output guidance)
 5. Import into a **new workflow** (not append into an existing canvas).
 6. The first node should be `Start Here (Manual Trigger)`.
 7. If you do not see it, use n8n canvas "Fit view" once.
@@ -132,6 +134,10 @@ If Docker is not available, you can use n8n Cloud trial and trigger this repo vi
 
 Note:
 - n8n Cloud does not support local `Execute Command`, so local Python execution must happen through an external runner (GitHub Actions in this setup).
+
+Input/Output in n8n Cloud:
+- Input: update transcript files in GitHub under `data/demo/` and `data/onboarding/`, then run workflow.
+- Output: open returned `run_url` and download artifact `clara-pipeline-outputs` (contains `outputs/` and `tracker/tasks.json`).
 
 ## Retell Setup Notes
 
