@@ -334,11 +334,7 @@
             "type": "main",
             "index": 0
           }
-        ]
-      ]
-    },
-    "Dispatch GitHub Action": {
-      "main": [
+        ],
         [
           {
             "node": "Wait 20 Seconds",
