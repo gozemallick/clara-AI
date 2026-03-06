@@ -31,7 +31,8 @@ The implementation is deterministic, idempotent, and uses Python standard librar
     |-- n8n_clara_pipeline_cloud.json
     |-- n8n_clara_pipeline_cloud_verbose.json
     |-- n8n_clara_pipeline_cloud_correct.json
-    `-- n8n_clara_pipeline_cloud_hybrid.json
+    |-- n8n_clara_pipeline_cloud_hybrid.json
+    `-- n8n_clara_pipeline_cloud_no_code.json
 ```
 
 ## What This Pipeline Produces
@@ -123,6 +124,7 @@ If Docker is not available, you can use n8n Cloud trial and trigger this repo vi
    - `workflows/n8n_clara_pipeline_cloud_verbose.json` (multi-node visual flow)
    - `workflows/n8n_clara_pipeline_cloud_correct.json` (recommended: explicit input/output guidance)
    - `workflows/n8n_clara_pipeline_cloud_hybrid.json` (recommended visual: Wait + IF + Success/Still Running/Failed)
+   - `workflows/n8n_clara_pipeline_cloud_no_code.json` (most stable on n8n Cloud if Code node runner timeouts occur)
 5. Import into a **new workflow** (not append into an existing canvas).
 6. The first node should be `Start Here (Manual Trigger)`.
 7. If you do not see it, use n8n canvas "Fit view" once.
