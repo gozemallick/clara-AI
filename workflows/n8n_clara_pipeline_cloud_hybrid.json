@@ -1,0 +1,415 @@
+{
+  "name": "Clara Pipeline (Cloud Hybrid Visual + Reliable)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start_manual_trigger",
+      "name": "Start Here (Manual Trigger)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        180,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cfg-owner",
+              "name": "owner",
+              "value": "gozemallick",
+              "type": "string"
+            },
+            {
+              "id": "cfg-repo",
+              "name": "repo",
+              "value": "clara-AI",
+              "type": "string"
+            },
+            {
+              "id": "cfg-workflow",
+              "name": "workflow_id",
+              "value": "run_clara_pipeline.yml",
+              "type": "string"
+            },
+            {
+              "id": "cfg-ref",
+              "name": "ref",
+              "value": "main",
+              "type": "string"
+            },
+            {
+              "id": "cfg-token",
+              "name": "token",
+              "value": "REPLACE_WITH_GITHUB_PAT",
+              "type": "string"
+            },
+            {
+              "id": "cfg-artifact",
+              "name": "artifact_name",
+              "value": "clara-pipeline-outputs",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set_github_config",
+      "name": "Set GitHub Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        420,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $json;\n\nif (String(cfg.token || '').startsWith('REPLACE_')) {\n  throw new Error('Replace REPLACE_WITH_GITHUB_PAT in Set GitHub Config before running.');\n}\n\nconst dispatchedAt = new Date().toISOString();\n\nconst dispatch = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/actions/workflows/${cfg.workflow_id}/dispatches`,\n  headers: {\n    Authorization: `Bearer ${cfg.token}`,\n    Accept: 'application/vnd.github+json',\n    'X-GitHub-Api-Version': '2022-11-28'\n  },\n  body: { ref: cfg.ref },\n  json: true,\n  resolveWithFullResponse: true,\n  simple: false\n});\n\nreturn [\n  {\n    json: {\n      ...cfg,\n      dispatch_status_code: dispatch.statusCode,\n      dispatched: dispatch.statusCode === 204,\n      dispatched_at_utc: dispatchedAt\n    }\n  }\n];"
+      },
+      "id": "dispatch_github_action",
+      "name": "Dispatch GitHub Action",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "id": "wait_15_seconds",
+      "name": "Wait 15 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        940,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $json;\n\nconst runsResp = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/actions/workflows/${cfg.workflow_id}/runs?branch=${encodeURIComponent(cfg.ref)}&event=workflow_dispatch&per_page=20`,\n  headers: {\n    Authorization: `Bearer ${cfg.token}`,\n    Accept: 'application/vnd.github+json',\n    'X-GitHub-Api-Version': '2022-11-28'\n  },\n  json: true\n});\n\nconst runs = Array.isArray(runsResp.workflow_runs) ? runsResp.workflow_runs : [];\nconst dispatchedAtMs = Date.parse(cfg.dispatched_at_utc || '1970-01-01T00:00:00Z');\nconst run = runs.find((r) => Date.parse(r.created_at) >= dispatchedAtMs - 5000) || runs[0] || null;\n\nreturn [\n  {\n    json: {\n      ...cfg,\n      run_id: run ? run.id : null,\n      run_status: run ? run.status : null,\n      run_conclusion: run ? run.conclusion : null,\n      run_url: run ? run.html_url : null\n    }\n  }\n];"
+      },
+      "id": "check_latest_run",
+      "name": "Check Latest Run",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1180,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const j = $json;\n\nif (!j.run_id) {\n  return [\n    {\n      json: {\n        ...j,\n        artifact_archive_download_url: null\n      }\n    }\n  ];\n}\n\nconst artifactsResp = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.github.com/repos/${j.owner}/${j.repo}/actions/runs/${j.run_id}/artifacts?per_page=100`,\n  headers: {\n    Authorization: `Bearer ${j.token}`,\n    Accept: 'application/vnd.github+json',\n    'X-GitHub-Api-Version': '2022-11-28'\n  },\n  json: true\n});\n\nconst artifact = (artifactsResp.artifacts || []).find((a) => a.name === j.artifact_name) || null;\n\nreturn [\n  {\n    json: {\n      ...j,\n      artifact_archive_download_url: artifact ? artifact.archive_download_url : null\n    }\n  }\n];"
+      },
+      "id": "get_artifact_info",
+      "name": "Get Artifact Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1420,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "if-completed",
+              "leftValue": "={{ $json.run_status }}",
+              "rightValue": "completed",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if_completed",
+      "name": "Completed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1660,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "if-success",
+              "leftValue": "={{ $json.run_conclusion }}",
+              "rightValue": "success",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if_success",
+      "name": "Success?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1900,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "success-status",
+              "name": "status",
+              "value": "success",
+              "type": "string"
+            },
+            {
+              "id": "success-message",
+              "name": "message",
+              "value": "Pipeline completed successfully. Download artifact clara-pipeline-outputs from run_url.",
+              "type": "string"
+            },
+            {
+              "id": "success-run-url",
+              "name": "run_url",
+              "value": "={{ $json.run_url }}",
+              "type": "string"
+            },
+            {
+              "id": "success-artifact-url",
+              "name": "artifact_archive_download_url",
+              "value": "={{ $json.artifact_archive_download_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "success_output",
+      "name": "Success",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2140,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "failed-status",
+              "name": "status",
+              "value": "failed",
+              "type": "string"
+            },
+            {
+              "id": "failed-message",
+              "name": "message",
+              "value": "Run completed but failed. Open run_url and inspect GitHub Actions logs.",
+              "type": "string"
+            },
+            {
+              "id": "failed-run-url",
+              "name": "run_url",
+              "value": "={{ $json.run_url }}",
+              "type": "string"
+            },
+            {
+              "id": "failed-conclusion",
+              "name": "run_conclusion",
+              "value": "={{ $json.run_conclusion }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "failed_output",
+      "name": "Failed",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2140,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "running-status",
+              "name": "status",
+              "value": "running",
+              "type": "string"
+            },
+            {
+              "id": "running-message",
+              "name": "message",
+              "value": "Run not finished yet. Wait 30-60 seconds and execute workflow again.",
+              "type": "string"
+            },
+            {
+              "id": "running-run-url",
+              "name": "run_url",
+              "value": "={{ $json.run_url }}",
+              "type": "string"
+            },
+            {
+              "id": "running-run-status",
+              "name": "run_status",
+              "value": "={{ $json.run_status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "running_output",
+      "name": "Still Running",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1900,
+        420
+      ]
+    }
+  ],
+  "connections": {
+    "Start Here (Manual Trigger)": {
+      "main": [
+        [
+          {
+            "node": "Set GitHub Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set GitHub Config": {
+      "main": [
+        [
+          {
+            "node": "Dispatch GitHub Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch GitHub Action": {
+      "main": [
+        [
+          {
+            "node": "Wait 15 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 15 Seconds": {
+      "main": [
+        [
+          {
+            "node": "Check Latest Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Latest Run": {
+      "main": [
+        [
+          {
+            "node": "Get Artifact Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Artifact Info": {
+      "main": [
+        [
+          {
+            "node": "Completed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Completed?": {
+      "main": [
+        [
+          {
+            "node": "Success?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Still Running",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success?": {
+      "main": [
+        [
+          {
+            "node": "Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "pinData": {}
+}
