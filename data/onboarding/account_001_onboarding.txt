@@ -1,0 +1,9 @@
+Company Name: Redwood Fire Systems
+Business hours confirmed: Monday to Friday 7:30 am to 6:00 pm PST
+Emergency definition now includes fire alarm trouble plus active water flow alarm.
+Emergency transfer order: 415-555-0102 then 415-555-0101.
+Transfer timeout confirmed at 55 seconds and 2 retries.
+If transfer fails, say dispatch will call back in under 15 minutes.
+Non-emergency follow-up window: within 24 hours.
+Constraint: never create sprinkler jobs in ServiceTrade.
+

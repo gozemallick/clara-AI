@@ -1,0 +1,8 @@
+Account: Horizon Facility Maintenance
+Business hours remain 24/7 ET.
+Emergency routing primary 813-555-0199, secondary 813-555-0188.
+Transfer timeout is 35 seconds with 2 retries.
+If transfer fails, confirm on-call dispatch callback within 10 minutes.
+Non-emergency work orders should still gather name, phone, address, and issue details.
+Do not create sprinkler jobs in ServiceTrade and do not auto-close open tickets.
+

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Clara Agent Spec",
+  "type": "object",
+  "required": [
+    "agent_name",
+    "voice_style",
+    "system_prompt",
+    "key_variables",
+    "tool_invocation_placeholders",
+    "call_transfer_protocol",
+    "fallback_protocol_if_transfer_fails",
+    "version"
+  ],
+  "properties": {
+    "agent_name": {
+      "type": "string"
+    },
+    "voice_style": {
+      "type": "string"
+    },
+    "system_prompt": {
+      "type": "string"
+    },
+    "key_variables": {
+      "type": "object"
+    },
+    "tool_invocation_placeholders": {
+      "type": "object"
+    },
+    "call_transfer_protocol": {
+      "type": "object",
+      "required": [
+        "destinations",
+        "timeout_seconds",
+        "retries"
+      ],
+      "properties": {
+        "destinations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timeout_seconds": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "retries": {
+          "type": "integer"
+        }
+      }
+    },
+    "fallback_protocol_if_transfer_fails": {
+      "type": "object",
+      "required": [
+        "caller_message",
+        "required_capture_fields"
+      ],
+      "properties": {
+        "caller_message": {
+          "type": "string"
+        },
+        "required_capture_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "enum": [
+        "v1",
+        "v2"
+      ]
+    }
+  }
+}
+

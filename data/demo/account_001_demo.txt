@@ -1,0 +1,10 @@
+Company Name: Redwood Fire Systems
+Business hours: Monday to Friday 8:00 am to 5:00 pm PST
+Office address: 1550 Harbor Street, Oakland, CA 94607
+Services: sprinkler inspections, fire alarm monitoring, extinguisher service.
+Emergency means active leak, fire alarm triggered, or burst pipe.
+For emergency calls transfer to dispatch at 415-555-0101, backup 415-555-0102.
+If transfer fails after 60 seconds notify dispatch and promise a callback.
+Non-emergency requests can be logged for next business day follow-up.
+Integration note: never create sprinkler jobs in ServiceTrade from the agent.
+

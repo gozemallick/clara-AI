@@ -1,0 +1,28 @@
+name: Run Clara Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run_pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run zero-cost pipeline
+        run: python scripts/run_pipeline.py --input-root data --output-root outputs --tracker-file tracker/tasks.json
+
+      - name: Upload generated artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: clara-pipeline-outputs
+          path: |
+            outputs
+            tracker/tasks.json

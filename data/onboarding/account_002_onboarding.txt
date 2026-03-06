@@ -1,0 +1,8 @@
+Company: Summit Electrical Services LLC
+Business hours confirmed Monday to Friday 8:00 am to 5:00 pm CST.
+Emergency calls must route first to 214-555-0134 and then 214-555-0133.
+Transfer timeout is 60 seconds.
+If transfer fails after 60 seconds, inform caller an electrician will call within 30 minutes.
+Non-emergency requests should be collected for next business day scheduling.
+Do not create generator service jobs automatically in ServiceTrade.
+

@@ -1,0 +1,9 @@
+Client name: Glacier Mechanical Co
+Business hours: Monday to Saturday 8:00 am to 6:00 pm MST.
+Office address: 5001 River Lane, Denver, CO 80216
+Emergency now includes no cooling for medical sites and smoke from units.
+Emergency transfer should call 303-555-0150 then 303-555-0151.
+Timeout is 50 seconds and retries are 2.
+If no answer, apologize and confirm callback within 20 minutes.
+Non-emergency follow-up: next business day.
+

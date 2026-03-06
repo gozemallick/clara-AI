@@ -1,0 +1,9 @@
+Company Name: Beacon Sprinkler and Alarm Inc
+Office address: 98 Market Road, Phoenix, AZ 85004
+Services: sprinkler repairs, backflow inspections, alarm diagnostics.
+Emergency definition: sprinkler leak, active fire alarm, or flood condition.
+Emergency transfer destination 602-555-0177.
+If transfer fails after 60 seconds route to backup 602-555-0178.
+Integration rule: do not auto-create jobs for alarm false positives.
+Non-emergency callers should leave details for next business day.
+

@@ -1,0 +1,8 @@
+Client name: Glacier Mechanical Co
+Business hours: Monday to Saturday 9:00 am to 5:30 pm MST
+Services include hvac maintenance, boiler repair, and inspection.
+Emergency calls are no heat in winter, refrigerant leak, or smoke from equipment.
+After-hours emergency transfer goes to 303-555-0150.
+If transfer fails after 50 seconds, apologize and assure fast dispatch callback.
+Non-emergency issues can be collected and scheduled next business day.
+

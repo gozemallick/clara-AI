@@ -1,0 +1,360 @@
+#  Clara  Answers  Intern  Assignment  
+##  Build  a  Zero-Cost  Automation  Pipeline:  Demo  Call  ->  Retell  Agent  Draft  ->  
+Onboarding
+ 
+Updates
+ 
+->
+ 
+Agent
+ 
+Revision
+ 
+ 
+###  Goal  
+Build  an  automation  workflow  that:  
+1)  Takes  a  demo  call  recording  (or  transcript)  and  generates  a  **Preliminary  Retell  
+Agent**
+ 
+configuration.
+ 
+2)  Takes  an  onboarding  call  recording  (or  onboarding  form  submission)  and  
+**updates**
+ 
+the
+ 
+previously
+ 
+created
+ 
+agent
+ 
+with
+ 
+modifications.
+ 
+3)  Runs  end-to-end  on  a  dataset  of  **5  demo  calls  +  5  onboarding  calls**,  without  
+spending
+ 
+any
+ 
+money.
+ 
+This  assignment  is  designed  to  test:  
+-  Systems  thinking  
+-  Ability  to  work  with  ambiguity  
+-  Automation  design  and  execution  
+-  Practical  engineering  skills:  APIs,  webhooks,  JSON,  prompt  templating,  deployment  
+basics
+ 
+-  Resourcefulness  (zero-cost  constraint)  
+-  Documentation  and  clarity  
+ 
+---  
+
+ 
+##  What  You  Will  Build  
+ 
+###  Pipeline  A:  Demo  Call  ->  Preliminary  Agent  
+Input:  Demo  call  recording  (or  transcript)  
+Output:  
+-  Extracted  structured  account  memo  (JSON)  
+-  A  preliminary  Retell  agent  configuration  (prompt  +  key  settings)  
+-  A  stored  artifact  in  a  repository  (database  or  structured  file  storage)  
+-  A  tracking  item  created  in  a  task  tool  (suggested:  Asana,  but  you  can  use  a  free  
+alternative
+ 
+if
+ 
+needed)
+ 
+ 
+###  Pipeline  B:  Onboarding  ->  Agent  Modification  
+Input:  Onboarding  call  recording  (or  onboarding  form  response)  
+Output:  
+-  Updated  structured  account  memo  (diff  or  patch)  
+-  Updated  Retell  agent  configuration  
+-  Versioned  changes  (v1  ->  v2)  
+-  A  clear  changelog  
+ 
+---  
+
+ 
+##  Hard  Constraints  (Non-Negotiable)  
+1)  **Zero  spend**:  do  not  purchase  any  paid  plan,  credits,  subscriptions,  or  addons.  
+2)  Use  **free-tier  only**  tools  and  services.  
+3)  If  a  platform  requires  payment  to  access  an  API,  you  must:  
+   -  Provide  a  mocked  integration  layer,  or  
+   -  Provide  a  reproducible  alternative  using  open  tools  
+4)  Your  solution  must  be  reproducible  by  us.  
+##  Allowed  Tools  (Pick  Your  Stack)  
+You  can  use  any  mix,  as  long  as  it  is  zero-cost  and  reproducible.  
+###  Automation  Orchestrator  (choose  one)  
+-  n8n  (self-host  locally  via  Docker,  free)  
+-  Make  (free  tier)  or  Zapier  (free  tier),  only  if  it  stays  within  free  limits  
+-  Langflow  (optional,  if  used  for  extraction  or  agent  config  generation)  
+###  Storage  (choose  one)  
+-  Local  JSON  files  in  a  GitHub  repo  
+-  Google  Sheets  (free)  
+-  Airtable  free  tier  
+-  Supabase  free  tier  (preferred  if  you  can  do  it  cleanly)  
+-  SQLite  locally  
+ 
+
+###  Transcript  Handling  (choose  one)  
+-  If  we  provide  transcripts:  use  them  directly  
+-  If  only  audio  is  provided:  you  can  use  a  free  speech-to-text  approach,  but  do  not  
+pay
+ 
+  -  Acceptable:  open-source  local  transcription  (for  example  Whisper  running  locally)  
+  -  If  you  cannot  transcribe  locally,  your  workflow  must  accept  transcripts  as  input  
+and
+ 
+still
+ 
+demonstrate
+ 
+automation
+ 
+fully
+ 
+###  Retell  
+-  You  must  create  a  Retell  account  if  possible  on  free  tier  
+-  If  Retell  does  not  allow  free  programmatic  agent  creation,  do  not  hack  it  
+  -  Implement  a  “Retell  Agent  Spec  JSON”  output  that  matches  how  you  would  
+configure
+ 
+the
+ 
+agent
+ 
+  -  Optionally  add  a  manual  “import”  step  with  clear  instructions  
+##  Dataset  
+We  will  share:  
+-  5  demo  call  recordings  
+-  5  onboarding  call  recordings  
+(If  transcripts  are  also  provided,  treat  them  as  the  primary  input  to  reduce  
+complexity
+ 
+and
+ 
+cost.)
+ 
+Your  workflow  must  run  on  all  10  files  and  generate  outputs  per  account.  
+ 
+ 
+
+##  Required  Output  Format  
+ 
+###  1)  Account  Memo  JSON  (per  account)  
+Create  a  structured  JSON  with  at  least  these  fields:  
+-  account_id  
+-  company_name  
+-  business_hours  (days,  start,  end,  timezone)  
+-  office_address  (if  present)  
+-  services_supported  (list)  
+-  emergency_definition  (list  of  triggers)  
+-  emergency_routing_rules  (who  to  call,  order,  fallback)  
+-  non_emergency_routing_rules  
+-  call_transfer_rules  (timeouts,  retries,  what  to  say  if  fails)  
+-  integration_constraints  (example:  “never  create  sprinkler  jobs  in  ServiceTrade”)  
+-  after_hours_flow_summary  
+-  office_hours_flow_summary  
+-  questions_or_unknowns  (only  if  truly  missing)  
+-  notes  (short)  
+ 
+###  2)  Retell  Agent  Draft  Spec  (per  account)  
+Produce  a  JSON  or  YAML  that  includes:  
+
+-  agent_name  
+-  voice  style  (basic)  
+-  system  prompt  (your  generated  prompt)  
+-  key  variables  (timezone,  business  hours,  address,  emergency  routing)  
+-  tool  invocation  placeholders  (do  not  mention  tools  to  caller)  
+-  call  transfer  protocol  
+-  fallback  protocol  if  transfer  fails  
+-  version  (v1  for  demo,  v2  after  onboarding  update)  
+ 
+###  3)  Versioning  and  Diff  
+When  onboarding  updates  arrive:  
+-  produce  v2  memo  JSON  
+-  produce  v2  agent  spec  
+-  produce  a  changelog  file,  example:  `changes.md`  or  `changes.json`  
+  -  show  what  changed  and  why  
+ 
+###  4)  Orchestrator  Workflow  Export  
+Provide:  
+-  n8n  workflow  JSON  export  OR  Make  scenario  blueprint/screens  
+-  plus  a  short  setup  guide  so  we  can  run  it  
+ 
+
+###  5)  README  
+A  clean  README  that  explains:  
+-  architecture  and  data  flow  
+-  how  to  run  locally  
+-  how  to  plug  in  the  dataset  files  
+-  where  outputs  are  stored  
+-  known  limitations  
+-  what  you  would  improve  with  production  access  
+##  Functional  Requirements  
+###  Extraction  and  Structuring  
+-  Your  system  must  extract  key  data  from  transcripts  reliably.  
+-  It  must  avoid  hallucinating  unknowns.  
+-  If  a  detail  is  missing,  it  should  be  left  blank  or  flagged  under  
+`questions_or_unknowns`.
+ 
+###  Prompt  Hygiene  
+Generated  agent  prompt  must  include:  
+-  Business  hours  flow:  greeting,  purpose,  collect  name  and  number,  route  or  transfer,  
+fallback
+ 
+if
+ 
+transfer
+ 
+fails,
+ 
+confirm
+ 
+next
+ 
+steps,
+ 
+“anything
+ 
+else”,
+ 
+close.
+ 
+-  After  hours  flow:  greet,  purpose,  confirm  emergency,  if  emergency  collect  name,  
+number,
+ 
+address
+ 
+immediately,
+ 
+attempt
+ 
+transfer,
+ 
+fallback
+ 
+if
+ 
+transfer
+ 
+fails,
+ 
+assure
+ 
+quick
+ 
+followup,
+ 
+“anything
+ 
+else”,
+ 
+close.
+ 
+-  Must  not  ask  too  many  questions.  Only  collect  what  is  needed  for  routing  and  
+dispatch.
+ 
+
+-  Must  not  mention  “function  calls”  to  the  caller.  
+-  Must  include  a  clear  call  transfer  protocol  and  transfer-fail  protocol.  
+###  Automation  Behavior  
+-  Pipeline  A  auto-generates  v1  assets  for  each  demo  call.  
+-  Pipeline  B  takes  onboarding  input  and  updates  the  same  account_id  to  v2.  
+-  The  workflow  should  be  repeatable  and  idempotent  (running  twice  should  not  
+create
+ 
+chaos).
+ 
+##  Suggested  Architecture  (You  Can  Improve  This)  
+1)  Ingest  file  (recording  or  transcript)  ->  normalize  ->  assign  account_id  
+2)  Transcription  step  (optional  if  transcripts  provided)  
+3)  LLM  extraction  step  ->  Account  Memo  JSON  
+4)  Prompt  generator  step  ->  Retell  Agent  Draft  Spec  
+5)  Store  outputs  ->  repo  or  DB  
+6)  Create  task  tracker  item  ->  Asana  or  alternative  
+7)  Onboarding  input  ->  extract  updates  ->  apply  patch  ->  regenerate  agent  spec  v2  
+->
+ 
+store
+ 
++
+ 
+changelog
+ 
+##  Setup  Instructions  (What  We  Expect  You  To  Include)  
+ 
+###  Retell  Setup  
+-  Create  a  Retell  account  
+-  Document  where  to  get  API  keys  (if  free)  
+-  If  you  cannot  call  Retell  APIs  on  free  tier:  
+
+  -  Document  the  exact  manual  steps  to  paste  your  “Agent  Draft  Spec”  into  Retell  UI  
+ 
+###  n8n  Setup  (preferred)  
+-  Provide  a  docker-compose  or  simple  local  run  steps  
+-  Provide  environment  variables  list  
+-  Provide  workflow  import  steps  
+-  Provide  a  “Run  all  dataset”  method  (batch)  
+###  LLM  Usage  (Must  Be  Zero-Cost)  
+You  have  two  options:  
+1)  Use  local  open-source  LLM  (if  you  can,  optional)  
+2)  Use  rule-based  extraction  +  templating  without  any  paid  LLM  calls  
+If  you  use  an  external  LLM  API  that  costs  money,  it  violates  the  constraint.  
+If  you  do  use  an  LLM,  show  how  you  keep  it  zero-cost.  
+##  Evaluation  Rubric  (How  We  Score)  
+Total  100  points:  
+###  A)  Automation  and  Reliability  (35)  
+-  Runs  end-to-end  on  all  10  files  
+-  Clean  retries,  no  manual  babysitting  
+-  Clear  failure  handling  
+ 
+ 
+
+###  B)  Data  Quality  and  Prompt  Quality  (30)  
+-  Correct  extraction  without  inventing  facts  
+-  Prompts  follow  required  conversation  hygiene  
+-  Transfer  and  fallback  logic  is  solid  
+###  C)  Engineering  Quality  (20)  
+-  Clean  architecture,  reusable  modules  
+-  Sensible  data  schema,  versioning  
+-  Good  logs  and  debuggability  
+###  D)  Documentation  and  Reproducibility  (15)  
+-  We  can  run  it  from  your  README  
+-  Clear  setup  instructions  
+-  Clear  outputs  and  file  structure  
+Bonus  points:  
+-  A  simple  UI  or  dashboard  (even  a  basic  web  page  or  sheet)  
+-  A  “diff  viewer”  that  highlights  changes  between  v1  and  v2  
+-  Batch  processing  and  summary  metrics  
+##  Submission  Requirements  
+Submit  a  single  GitHub  repository  (public  or  private  with  access  shared)  
+containing:
+ 
+-  `/workflows`  (n8n  exports  or  equivalent)  
+-  `/outputs/accounts/<account_id>/v1`  and  `v2`  
+
+-  `/scripts`  (if  any)  
+-  `/README.md`  
+-  `/changelog`  or  per-account  changelog  files  
+Also  include  a  short  3  to  5  minute  loom  video:  
+-  show  the  workflow  running  on  at  least  1  demo  +  1  onboarding  pair  
+-  show  generated  outputs  
+-  show  how  agent  v1  becomes  v2  
+##  Notes  and  Ethics  
+-  Do  not  include  any  customer  personal  data  beyond  what  is  in  the  dataset.  
+-  Treat  recordings  and  transcripts  as  confidential.  
+-  Do  not  publish  raw  recordings  publicly.  
+##  What  “Great”  Looks  Like  
+-  You  built  a  pipeline  that  feels  like  a  small  product.  
+-  It  is  structured,  versioned,  repeatable,  and  robust.  
+-  It  requires  minimal  manual  work.  
+-  It  demonstrates  good  judgment  and  good  taste.  
+ 
+ 
+  

@@ -1,0 +1,10 @@
+Account: Horizon Facility Maintenance
+Business hours: 24/7
+Office address: 410 Lakeview Drive, Tampa, FL 33602
+Services supported: hvac, electrical, fire alarm, sprinkler.
+Emergency includes flooding, active alarm, and power outage.
+Emergency calls transfer to 813-555-0199.
+If no answer after 40 seconds, notify on-call supervisor and assure immediate follow-up.
+Non-emergency requests are logged with caller name, number, and issue summary.
+Never create sprinkler jobs in ServiceTrade; dispatch creates them manually.
+

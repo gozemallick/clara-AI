@@ -1,0 +1,10 @@
+Company: Summit Electrical Services LLC
+Office hours: Mon to Fri 7:30 am - 6:00 pm CST
+Office address: 2201 Northgate Ave, Dallas, TX 75207
+We handle electrical maintenance, panel replacements, and generator service.
+Emergency if no power, burning smell, or sparking panel.
+Emergency routing: call technician line 214-555-0133 first, then manager 214-555-0134.
+Transfer timeout is 45 seconds, with 2 retries.
+If nobody answers, tell caller we will return the call quickly.
+Non-emergency work orders are collected and reviewed same day when possible.
+
