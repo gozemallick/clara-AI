@@ -27,11 +27,7 @@ The implementation is deterministic, idempotent, and uses Python standard librar
 |-- tracker/
 |   `-- tasks.json
 `-- workflows/
-    |-- n8n_clara_pipeline.json
-    |-- n8n_clara_pipeline_cloud.json
-    |-- n8n_clara_pipeline_cloud_verbose.json
     |-- n8n_clara_pipeline_cloud_correct.json
-    |-- n8n_clara_pipeline_cloud_hybrid.json
     `-- n8n_clara_pipeline_cloud_no_code.json
 ```
 
@@ -95,23 +91,6 @@ Generated prompt includes required:
 - No mention of function calls to callers.
 - Transfer and transfer-fail protocols.
 
-## n8n Setup (Free / Local)
-
-1. Start n8n with Docker:
-
-```bash
-docker compose -f docker-compose.n8n.yml up -d
-```
-
-2. Open `http://localhost:5678`.
-3. Import `workflows/n8n_clara_pipeline.json`.
-4. Ensure the execute-command node runs from repo root so `python scripts/run_pipeline.py ...` resolves correctly.
-5. Trigger workflow manually to process all dataset files.
-
-Alternative:
-
-- You can also run n8n desktop/local without Docker and import the same workflow.
-
 ## n8n Cloud Setup (No Docker)
 
 If Docker is not available, you can use n8n Cloud trial and trigger this repo via GitHub Actions.
@@ -120,18 +99,14 @@ If Docker is not available, you can use n8n Cloud trial and trigger this repo vi
 2. In GitHub, keep `.github/workflows/run_clara_pipeline.yml` in your default branch.
 3. Create a GitHub Personal Access Token (classic) with `repo` and `workflow` scopes.
 4. Open n8n Cloud and import one of:
-   - `workflows/n8n_clara_pipeline_cloud.json` (minimal trigger flow)
-   - `workflows/n8n_clara_pipeline_cloud_verbose.json` (multi-node visual flow)
    - `workflows/n8n_clara_pipeline_cloud_correct.json` (recommended: explicit input/output guidance)
-   - `workflows/n8n_clara_pipeline_cloud_hybrid.json` (recommended visual: Wait + IF + Success/Still Running/Failed)
-   - `workflows/n8n_clara_pipeline_cloud_no_code.json` (most stable on n8n Cloud if Code node runner timeouts occur)
+   - `workflows/n8n_clara_pipeline_cloud_no_code.json` (recommended stable option on n8n Cloud)
 5. Import into a **new workflow** (not append into an existing canvas).
 6. The first node should be `Start Here (Manual Trigger)`.
 7. If you do not see it, use n8n canvas "Fit view" once.
-8. Open the **Dispatch GitHub Action** node and replace:
-   - `REPLACE_WITH_GITHUB_USERNAME`
-   - `REPLACE_WITH_REPO_NAME`
+8. Open the **Set GitHub Config** node and replace:
    - `REPLACE_WITH_GITHUB_PAT`
+   - (optional) `owner`, `repo`, `ref` if your repo details are different.
 9. Execute the workflow.
 10. Check GitHub -> Actions -> **Run Clara Pipeline** for status.
 11. Download artifact `clara-pipeline-outputs` from the completed run.
